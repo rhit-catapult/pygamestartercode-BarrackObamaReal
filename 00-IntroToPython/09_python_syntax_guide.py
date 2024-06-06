@@ -61,5 +61,5 @@ def sequences():
     for k in range(len(my_list)):
         total *= my_list[k]
     print(total)
-
+    my_list.
 main()
