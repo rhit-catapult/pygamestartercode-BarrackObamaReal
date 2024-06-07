@@ -5,20 +5,43 @@ import random
 
 # You will implement this module ENTIRELY ON YOUR OWN!
 
-# TODO: Create a Ball class.
+# DONE: Create a Ball class.
+class Ball:
 # TODO: Possible member variables: screen, color, x, y, radius, speed_x, speed_y
+    def __init__(self, screen):
+        self.color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        self.radius = random.randint(5,70)
+        self.screen = screen
+        self.x = random.randint(self.radius,self.screen.get_width() - self.radius)
+        self.y = random.randint(self.radius,self.screen.get_height() - self.radius)
+
+        self.speed_x = random.randint(1,5)
+        self.speed_y = random.randint(1,5)
+
+
 # TODO: Methods: __init__, draw, move
-
-
+    def draw(self):
+        pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
+    def move(self):
+        if (self.radius + self.y) > self.screen.get_height() or (self.y - self.radius) < 0:
+            self.speed_y *= -1
+        if (self.radius + self.x) > self.screen.get_width() or (self.x - self.radius) < 0:
+            self.speed_x *= -1
+        self.x += self.speed_x
+        self.y += self.speed_y
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((300, 300))
+    screen = pygame.display.set_mode((1550, 800))
     pygame.display.set_caption('Bouncing Ball')
     screen.fill(pygame.Color('gray'))
     clock = pygame.time.Clock()
 
-    # TODO: Create an instance of the Ball class called ball1
+    ball_list = []
+    for i in range(random.randint(1,30)):
+        ball = Ball(screen)
+        ball_list.append(ball)
 
+    # TODO: Create an instance of the Ball class called ball1
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -26,6 +49,9 @@ def main():
 
         clock.tick(60)
         screen.fill(pygame.Color('gray'))
+        for ball in ball_list:
+            ball.draw()
+            ball.move()
 
         # TODO: Move the ball
         # TODO: Draw the ball
